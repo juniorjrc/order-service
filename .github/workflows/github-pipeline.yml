@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ORDER MODEL repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: juniorjrc
           path: /order-model
 
       - name: Set up JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'adopt'
@@ -32,7 +32,7 @@ jobs:
         run: mvn clean install --file pom.xml
 
       - name: Upload ORDER MODEL artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ordermodel-jar
           path: ordermodel/target/*.jar
@@ -42,16 +42,16 @@ jobs:
     needs: build-order-model
     steps:
       - name: Checkout ORDER SERVICE repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'adopt'
 
       - name: Download ORDER MODEL artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ordermodel-jar
           path: ordermodel/target/
