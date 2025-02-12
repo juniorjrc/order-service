@@ -25,10 +25,15 @@ jobs:
           repository: juniorjrc/order-model
           path: ordermodel
 
-      - name: Build ORDER MODEL
+      - name: Debug ORDER MODEL directory
         run: |
-          cd ordermodel
-          mvn clean install
+          echo "Listando arquivos dentro de ordermodel:"
+          ls -l ordermodel
+          echo "Verificando existência do pom.xml"
+          [ -f ordermodel/pom.xml ] && echo "pom.xml encontrado" || echo "pom.xml NÃO encontrado!"
+
+      - name: Build ORDER MODEL
+        run: mvn clean install --file ordermodel/pom.xml
 
       - name: Build ORDER SERVICE
         run: mvn -B clean install --file pom.xml
