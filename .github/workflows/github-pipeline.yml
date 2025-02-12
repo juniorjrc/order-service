@@ -62,4 +62,4 @@ jobs:
             -DgeneratePom=true
 
       - name: Build ORDER SERVICE
-        run: mvn -B clean install --file pom.xml -DskipTests
+        run: mvn -B clean install --file pom.xml
