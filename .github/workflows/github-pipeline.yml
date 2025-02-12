@@ -28,9 +28,9 @@ jobs:
       - name: Debug ORDER MODEL directory
         run: |
           echo "Listando arquivos dentro de ordermodel:"
-          ls -l ordermodel
+          ls -l 
           echo "Verificando existência do pom.xml"
-          [ -f ordermodel/pom.xml ] && echo "pom.xml encontrado" || echo "pom.xml NÃO encontrado!"
+          [ -f pom.xml ] && echo "pom.xml encontrado" || echo "pom.xml NÃO encontrado!"
 
       - name: Build ORDER MODEL
         run: mvn clean install --file ordermodel/pom.xml
