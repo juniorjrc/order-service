@@ -61,6 +61,8 @@
             <column name="order_final_value" type="NUMERIC(10,2)"/>
             <column name="status" type="VARCHAR(40)"/>
             <column name="error_details" type="VARCHAR(255)"/>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
         </createTable>
 
         <!-- Table product_order -->

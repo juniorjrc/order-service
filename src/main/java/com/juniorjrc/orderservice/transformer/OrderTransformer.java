@@ -21,7 +21,9 @@ public class OrderTransformer {
                 order.getOrderFinalValue(),
                 order.getStatus(),
                 order.getErrorDetails(),
-                this.productTransformer.transformAllToProductDTOList(order.getProducts())
+                this.productTransformer.transformAllToProductDTOList(order.getProducts()),
+                order.getCreatedAt(),
+                order.getUpdatedAt()
         );
     }
 }
