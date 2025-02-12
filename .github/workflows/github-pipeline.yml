@@ -1,0 +1,24 @@
+name: Build and tests
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "⚒️ Building ORDER SERVICE application"
+      - name: Development Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '21'
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: mvn -B clean install --file pom.xml
