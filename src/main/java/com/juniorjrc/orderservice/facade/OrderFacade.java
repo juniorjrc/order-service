@@ -3,6 +3,7 @@ package com.juniorjrc.orderservice.facade;
 import com.juniorjrc.ordermodel.dto.CreateNewOrderRequestDTO;
 import com.juniorjrc.ordermodel.dto.OrderDTO;
 import com.juniorjrc.ordermodel.dto.OrderMessageDTO;
+import com.juniorjrc.ordermodel.dto.UpdateOrderRequestDTO;
 import com.juniorjrc.ordermodel.entity.Order;
 import com.juniorjrc.ordermodel.enums.OrderStatusEnum;
 import com.juniorjrc.orderservice.publisher.OrderMessagePublisherService;
@@ -42,5 +43,10 @@ public class OrderFacade {
     @Transactional
     public void updateOrderStatus(final Long orderId, final OrderStatusEnum statusEnum) {
         this.orderService.updateOrderStatus(orderId, statusEnum);
+    }
+
+    @Transactional
+    public void updateOrderValues(final UpdateOrderRequestDTO updateOrderRequestDTO) {
+        this.orderService.updateOrderValues(updateOrderRequestDTO);
     }
 }

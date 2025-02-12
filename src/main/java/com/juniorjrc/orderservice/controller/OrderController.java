@@ -2,6 +2,7 @@ package com.juniorjrc.orderservice.controller;
 
 import com.juniorjrc.ordermodel.dto.CreateNewOrderRequestDTO;
 import com.juniorjrc.ordermodel.dto.OrderDTO;
+import com.juniorjrc.ordermodel.dto.UpdateOrderRequestDTO;
 import com.juniorjrc.ordermodel.dto.UpdateOrderStatusRequestDTO;
 import com.juniorjrc.orderservice.facade.OrderFacade;
 import lombok.AllArgsConstructor;
@@ -38,5 +39,11 @@ public class OrderController {
     public void updateOrderStatus(@PathVariable("orderId") final Long orderId,
                                   @RequestBody UpdateOrderStatusRequestDTO updateOrderStatusRequestDTO) {
         this.orderFacade.updateOrderStatus(orderId, updateOrderStatusRequestDTO.status());
+    }
+
+    @PostMapping("/update-values")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateOrderValues(@RequestBody UpdateOrderRequestDTO updateOrderRequestDTO) {
+        this.orderFacade.updateOrderValues(updateOrderRequestDTO);
     }
 }

@@ -1,6 +1,7 @@
 package com.juniorjrc.orderservice.service;
 
 import com.juniorjrc.ordermodel.dto.CreateNewOrderRequestDTO;
+import com.juniorjrc.ordermodel.dto.UpdateOrderRequestDTO;
 import com.juniorjrc.ordermodel.entity.Customer;
 import com.juniorjrc.ordermodel.entity.Order;
 import com.juniorjrc.ordermodel.entity.Product;
@@ -39,7 +40,7 @@ public class OrderService {
     public Order createNewOrder(final CreateNewOrderRequestDTO createNewOrderRequestDTO) {
         final Customer customer = this.customerService.findByIdOrElseThrow(createNewOrderRequestDTO.customerId());
         final String checksum = generateCustomerChecksum(customer);
-        if(!checksum.equals(createNewOrderRequestDTO.checksum())) {
+        if (!checksum.equals(createNewOrderRequestDTO.checksum())) {
             throw new OrderServiceBadRequestException(INVALID_REQUEST);
         }
         List<Product> products = this.productService.getAllProductsByOrder(createNewOrderRequestDTO.products());
@@ -49,6 +50,16 @@ public class OrderService {
     public void updateOrderStatus(final Long orderId, final OrderStatusEnum statusEnum) {
         Order order = findOrderByIdOrElseThrow(orderId);
         this.orderRepository.save(order.updateOrderStatus(statusEnum));
+    }
+
+    public void updateOrderValues(final UpdateOrderRequestDTO updateOrderRequestDTO) {
+        Order order = findOrderByIdOrElseThrow(updateOrderRequestDTO.orderId());
+        this.orderRepository.save(
+                order.updateOrderValues(
+                        updateOrderRequestDTO.orderValue(),
+                        updateOrderRequestDTO.orderFinalValue(),
+                        updateOrderRequestDTO.status()
+                ));
     }
 
     private static String generateCustomerChecksum(final Customer customer) {
