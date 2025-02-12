@@ -4,6 +4,7 @@ import com.juniorjrc.ordermodel.dto.CreateNewOrderRequestDTO;
 import com.juniorjrc.ordermodel.entity.Customer;
 import com.juniorjrc.ordermodel.entity.Order;
 import com.juniorjrc.ordermodel.entity.Product;
+import com.juniorjrc.ordermodel.enums.OrderStatusEnum;
 import com.juniorjrc.ordermodel.exception.OrderServiceBadRequestException;
 import com.juniorjrc.ordermodel.exception.OrderServiceInternalServerErrorException;
 import com.juniorjrc.ordermodel.exception.OrderServiceNotFoundException;
@@ -41,8 +42,13 @@ public class OrderService {
         if(!checksum.equals(createNewOrderRequestDTO.checksum())) {
             throw new OrderServiceBadRequestException(INVALID_REQUEST);
         }
-        List<Product> products = this.productService.findAllByIds(createNewOrderRequestDTO.productIds());
+        List<Product> products = this.productService.getAllProductsByOrder(createNewOrderRequestDTO.products());
         return this.orderRepository.save(Order.createNewOrder(customer, products));
+    }
+
+    public void updateOrderStatus(final Long orderId, final OrderStatusEnum statusEnum) {
+        Order order = findOrderByIdOrElseThrow(orderId);
+        this.orderRepository.save(order.updateOrderStatus(statusEnum));
     }
 
     private static String generateCustomerChecksum(final Customer customer) {

@@ -1,4 +1,4 @@
-package com.juniorjrc.orderservice.config;
+package com.juniorjrc.orderservice.config.swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

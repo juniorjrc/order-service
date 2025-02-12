@@ -2,7 +2,7 @@ server:
   forward-headers-strategy: NATIVE
   servlet:
     context-path: /orders
-  port: ${PORT}
+  port: ${PORT:0}
 
 application:
   title: order-service
@@ -39,6 +39,25 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/liquibase.xml
     enabled: true
+  rabbitmq:
+    auto-startup: true
+    host: localhost
+    virtualhost: ${DATABASE_SCHEMA:order}
+    ssl:
+      enabled: ${RABBIT_SSL_ENABLED:false}
+      algorithm: TLSv1.2
+    port: ${RABBIT_PORT:5672}
+    username: ${RABBIT_USERNAME:admin}
+    password: ${RABBIT_PASSWORD:admin123}
+    listener:
+      simple:
+        default-requeue-rejected: 'false' # disabled infinity reprocess on throw RuntimeException
+        retry:
+          enabled: true
+          initial-interval: 60000 # the first time will wait 1 minute to try again
+          max-attempts: 3 # will try a maximum of 3 times
+          max-interval: 60000 # the maximum interval between attempts is 1 minute
+          multiplier: 3.0 # multiplies the range by 3
 
 management:
   endpoints:
