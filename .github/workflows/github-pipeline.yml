@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: juniorjrc/order-model
-          path: /
+          ref: dev
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -24,7 +24,7 @@ jobs:
       - name: Debug ORDER MODEL directory
         run: |
           echo "Listando arquivos dentro de ordermodel:"
-          ls -l 
+          ls -l
           echo "Verificando existência do pom.xml"
           [ -f pom.xml ] && echo "pom.xml encontrado" || echo "pom.xml NÃO encontrado!"
 
@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ordermodel-jar
-          path: ordermodel/target/*.jar
+          path: target/*.jar
 
   build-order-service:
     runs-on: ubuntu-latest
@@ -43,6 +43,8 @@ jobs:
     steps:
       - name: Checkout ORDER SERVICE repository
         uses: actions/checkout@v4
+        with:
+          ref: dev
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -54,7 +56,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ordermodel-jar
-          path: ordermodel/target/
+          path: target/
 
       - name: Build ORDER SERVICE
         run: mvn -B clean install --file pom.xml
