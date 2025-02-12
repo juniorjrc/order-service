@@ -12,8 +12,7 @@ jobs:
       - name: Checkout ORDER MODEL repository
         uses: actions/checkout@v4
         with:
-          repository: juniorjrc
-          path: /order-model
+          repository: juniorjrc/order-model
 
       - name: Set up JDK
         uses: actions/setup-java@v4
