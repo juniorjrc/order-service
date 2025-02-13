@@ -1,0 +1,46 @@
+spring:
+  sql:
+    init:
+      mode: always
+  application:
+    name: order-service
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
+    hikari:
+      schema: PUBLIC
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: false
+        format_sql: true
+        temp:
+          use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.H2Dialect
+    defer-datasource-initialization: false
+  liquibase:
+    change-log: classpath:/db/changelog/liquibase.xml
+    enabled: false
+
+  rabbitmq:
+    virtualhost: /
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        default-requeue-rejected: 'false'
+        retry:
+          enabled: true
+          initial-interval: 60000
+          max-attempts: 3
+          max-interval: 60000
+          multiplier: 3.0

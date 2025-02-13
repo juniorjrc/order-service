@@ -1,0 +1,237 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="1" author="jorgecoutinho">
+        <comment>Create tables customer, supplier, product, orders, and product_order</comment>
+
+        <!-- Table customer -->
+        <createTable tableName="customer">
+            <column name="customer_id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="financial_manager" type="VARCHAR(150)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="private_key" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <!-- Table supplier -->
+        <createTable tableName="supplier">
+            <column name="supplier_id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Table product -->
+        <createTable tableName="product">
+            <column name="product_id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="product_value" type="NUMERIC(10,2)"/>
+            <column name="final_product_value" type="NUMERIC(10,2)"/>
+            <column name="supplier_id" type="INT">
+                <constraints nullable="false" foreignKeyName="fk_product_supplier" references="supplier(supplier_id)"/>
+            </column>
+        </createTable>
+
+        <!-- Table orders -->
+        <createTable tableName="orders">
+            <column name="order_id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="customer_id" type="INT">
+                <constraints nullable="false" foreignKeyName="fk_order_customer" references="customer(customer_id)"/>
+            </column>
+            <column name="order_value" type="NUMERIC(10,2)"/>
+            <column name="order_final_value" type="NUMERIC(10,2)"/>
+            <column name="status" type="VARCHAR(40)"/>
+            <column name="error_details" type="VARCHAR(255)"/>
+            <column name="created_at" type="TIMESTAMP"/>
+            <column name="updated_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <!-- Table product_order -->
+        <createTable tableName="product_order">
+            <column name="product_order_id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="INT">
+                <constraints nullable="false" foreignKeyName="fk_product_order_product"
+                             references="product(product_id)"/>
+            </column>
+            <column name="order_id" type="INT">
+                <constraints nullable="false" foreignKeyName="fk_product_order_order" references="orders(order_id)"/>
+            </column>
+        </createTable>
+
+        <!-- Inserts for supplier -->
+        <insert tableName="supplier">
+            <column name="name" value="AMBEV"/>
+        </insert>
+        <insert tableName="supplier">
+            <column name="name" value="COCA_COLA"/>
+        </insert>
+        <insert tableName="supplier">
+            <column name="name" value="HEINEKEN"/>
+        </insert>
+
+        <!-- Inserts for customer -->
+        <insert tableName="customer">
+            <column name="customer_name" value="Adega da Luz"/>
+            <column name="financial_manager" value="João Bosco"/>
+            <column name="address" value="Rua 123"/>
+            <column name="private_key" value="27678aff-e93b-4047-9e18-431a78688bf3"/>
+        </insert>
+        <insert tableName="customer">
+            <column name="customer_name" value="Adega Boa Bebida"/>
+            <column name="financial_manager" value="Guilherme Vaz"/>
+            <column name="address" value="Rua 345"/>
+            <column name="private_key" value="e689f427-e827-4e13-bee1-31f5e38707f8"/>
+        </insert>
+
+        <!-- Inserts for products -->
+        <insert tableName="product">
+            <column name="name" value="Skol Pilsen"/>
+            <column name="description" value="Cerveja Pilsen 350ml"/>
+            <column name="product_value" value="5.00"/>
+            <column name="final_product_value" value="4.50"/>
+            <column name="supplier_id" value="1"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Brahma Chopp"/>
+            <column name="description" value="Cerveja Chopp 473ml"/>
+            <column name="product_value" value="6.50"/>
+            <column name="final_product_value" value="5.85"/>
+            <column name="supplier_id" value="1"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Guaraná Antarctica"/>
+            <column name="description" value="Refrigerante Guaraná 2L"/>
+            <column name="product_value" value="8.00"/>
+            <column name="final_product_value" value="7.20"/>
+            <column name="supplier_id" value="1"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Pepsi"/>
+            <column name="description" value="Refrigerante Cola 2L"/>
+            <column name="product_value" value="9.00"/>
+            <column name="final_product_value" value="7.65"/>
+            <column name="supplier_id" value="2"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Coca-Cola"/>
+            <column name="description" value="Refrigerante Cola 2L"/>
+            <column name="product_value" value="10.00"/>
+            <column name="final_product_value" value="8.50"/>
+            <column name="supplier_id" value="2"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Fanta Laranja"/>
+            <column name="description" value="Refrigerante Laranja 1.5L"/>
+            <column name="product_value" value="7.50"/>
+            <column name="final_product_value" value="6.38"/>
+            <column name="supplier_id" value="2"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Sprite"/>
+            <column name="description" value="Refrigerante Limão 2L"/>
+            <column name="product_value" value="9.50"/>
+            <column name="final_product_value" value="8.08"/>
+            <column name="supplier_id" value="2"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Heineken"/>
+            <column name="description" value="Cerveja Puro Malte 330ml"/>
+            <column name="product_value" value="12.00"/>
+            <column name="final_product_value" value="10.14"/>
+            <column name="supplier_id" value="3"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Amstel Lager"/>
+            <column name="description" value="Cerveja Lager 473ml"/>
+            <column name="product_value" value="11.00"/>
+            <column name="final_product_value" value="9.41"/>
+            <column name="supplier_id" value="3"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Budweiser"/>
+            <column name="description" value="Cerveja American Lager 410ml"/>
+            <column name="product_value" value="10.50"/>
+            <column name="final_product_value" value="8.87"/>
+            <column name="supplier_id" value="3"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Stella Artois"/>
+            <column name="description" value="Cerveja Premium 275ml"/>
+            <column name="product_value" value="9.80"/>
+            <column name="final_product_value" value="8.28"/>
+            <column name="supplier_id" value="3"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Corona Extra"/>
+            <column name="description" value="Cerveja Premium 355ml"/>
+            <column name="product_value" value="13.00"/>
+            <column name="final_product_value" value="10.99"/>
+            <column name="supplier_id" value="3"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Chopp Brahma"/>
+            <column name="description" value="Barril 5L"/>
+            <column name="product_value" value="120.00"/>
+            <column name="final_product_value" value="108.00"/>
+            <column name="supplier_id" value="1"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Monster Energy"/>
+            <column name="description" value="Energético 473ml"/>
+            <column name="product_value" value="14.00"/>
+            <column name="final_product_value" value="11.90"/>
+            <column name="supplier_id" value="2"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="Red Bull"/>
+            <column name="description" value="Energético 250ml"/>
+            <column name="product_value" value="16.00"/>
+            <column name="final_product_value" value="13.52"/>
+            <column name="supplier_id" value="3"/>
+        </insert>
+
+        <!-- Rollback -->
+        <rollback>
+            <dropTable tableName="product_order"/>
+            <dropTable tableName="orders"/>
+            <dropTable tableName="product"/>
+            <dropTable tableName="customer"/>
+            <dropTable tableName="supplier"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
