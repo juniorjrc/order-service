@@ -1,7 +1,7 @@
 package com.juniorjrc.orderservice.service;
 
 import com.juniorjrc.ordermodel.dto.BasicCustomerCheckRequestDTO;
-import com.juniorjrc.ordermodel.dto.CreatesNewOrderProductRequestDTO;
+import com.juniorjrc.ordermodel.dto.CreateNewOrderProductRequestDTO;
 import com.juniorjrc.ordermodel.entity.Customer;
 import com.juniorjrc.ordermodel.entity.Product;
 import com.juniorjrc.orderservice.repository.ProductRepository;
@@ -38,7 +38,7 @@ public class ProductService {
         return this.productRepository.findAll(pageable);
     }
 
-    public List<Product> getAllProductsByOrder(final List<CreatesNewOrderProductRequestDTO> productsDTO) {
+    public List<Product> getAllProductsByOrder(final List<CreateNewOrderProductRequestDTO> productsDTO) {
         List<Product> products = new ArrayList<>();
         productsDTO.forEach(productDTO -> {
             Product product = findProductByIdOrElseNull(productDTO.productId());
