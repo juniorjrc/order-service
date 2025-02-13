@@ -28,3 +28,19 @@ spring:
   liquibase:
     change-log: classpath:/db/changelog/liquibase.xml
     enabled: false
+
+  rabbitmq:
+    virtualhost: /
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      simple:
+        default-requeue-rejected: 'false'
+        retry:
+          enabled: true
+          initial-interval: 60000
+          max-attempts: 3
+          max-interval: 60000
+          multiplier: 3.0

@@ -12,10 +12,12 @@ import com.juniorjrc.orderservice.repository.OrderRepository;
 import com.juniorjrc.orderservice.utils.OrderServiceMockHttpRequestUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MvcResult;
@@ -42,6 +44,9 @@ class OrderControllerTest extends OrderServiceMockHttpRequestUtils {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @MockitoBean
+    private RabbitTemplate rabbitTemplate;
 
     @Test
     void mustGetAllOrdersCorrectly() throws Exception {
